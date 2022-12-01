@@ -5,4 +5,3 @@
 .btn {
   @apply hover:bg-gray-300 hover:text-slate-600 transition-all duration-300 rounded-md px-6 py-2 mt-8 text-xl text-slate-800 bg-gray-200;
 }
-

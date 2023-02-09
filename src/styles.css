@@ -2,8 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+    box-sizing: border-box
+}
+
 .btn {
-  @apply hover:bg-gray-300 hover:text-slate-600 transition-all duration-300 rounded-md px-6 py-2 mt-8 text-xl text-slate-800 bg-gray-200;
+  @apply hover:bg-gray-300 hover:text-slate-600 transition-all duration-300 rounded-md px-4 py-2 mt-8 text-lg text-slate-800 bg-gray-200;
 }
 
 .menuContainer {
@@ -20,6 +24,10 @@
 
 .label {
     -webkit-text-stroke: 1px rgb(75, 70, 70);
+}
+
+.inputModal {
+    @apply m-2.5 p-1 rounded-md opacity-75 text-lg
 }
 
 

@@ -6,63 +6,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles.scss" />
     <link rel="stylesheet" href="styles.css" />
-    <script src="https://kit.fontawesome.com/d6704c4eb5.js" crossorigin="anonymous"></script>
+    <script
+      src="https://kit.fontawesome.com/d6704c4eb5.js"
+      crossorigin="anonymous"
+    ></script>
     <title>Tours</title>
   </head>
   <body>
     <div class="bg-sky-50">
       <div class="max-w-6xl m-auto py-16 px-4">
-            <div class="text-center mb-6">
-                <h1 class="text-xl sm:text-3xl lg:text-5xl text-slate-800 font-semibold">
-                    Лучшие предложения для отдыха
-                </h1> 
-                <div class="menuContainer mt-6 py-12 bg-cover bg-center"> 
-                    <div id="menu" class="p-4 grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-8"></div>
-                    <div class="flex flex-col items-start m-4 pb-5 w-1/3 rounded-md">
-                        <div class="mb-6">
-                            <label class="label">Рейтинг отеля</label><br>
-                            <select class="select" id="rating">
-                                <option value="0">Любой</option> 
-                                <option value="9">выше 9</option>
-                                <option value="8">выше 8</option>
-                                <option value="7">выше 7</option>
-                            </select> <br> 
-                        </div>
-                        <div>   
-                            <label class="label">Минимальная стоимость тура</label><br>
-							<input type="number" class="select flex mb-3" id="minPrice" />
-                            <label class="label">Максимальная стоимость тура</label><br>
-							<input type="number" class="select flex" id="maxPrice" /><br>
-							<button class="btn flex px-10" id="filterByPriceBtn">Найти</button>	
-                        </div>						
-                    </div> 
-                </div>
-                <div id="processing" class="mt-6"></div> 
-                <div class="flex justify-end gap-4">  
-                    <button class="btn">Все туры</button>
-                    <button class="btn">Избранное</button> 
-                </div>         
-            </div>                 
-            <div id="container"class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"></div>
-            <!-- модальное окно карточки-->
-            <div id="modalCardMenu" class="h-max mt-20 flex justify-center fixed inset-0">
-               <div class="border-2">
-                    <div class="flex justify-end">
-                        <button id="buttonCloseModal" class="text-2xl text-slate-700"><i class="fa-solid fa-xmark"></i></button>
-                    </div>   
-                    <div class="modalCard"></div> 
-                    <div class="flex flex-col">    
-                        <p class="text-lg text-slate-800">Для бронирования тура необходимо заполнить следующие поля</p>
-                        <input id="name" class="inputModal" name="lastName" type="text" placeholder="Фамилия Имя"/>
-                        <input id="phone" class="inputModal" name="phone" type="number" placeholder="Телефон"/>
-                        <input id="email" class="inputModal" name="email" type="text" placeholder="email"/>
-                        <input id="comment" class="inputModal h-40" name="comment" type="text" placeholder="Комментарий к заказу"/>
-                    </div> 
-                    <button id="orderBtn" class="btn">Заказать</button> 
-               </div>                
-            </div>      
-        </div>   
-    </div> 
-    <script type="module" src="/src/app.js" type="“module”"></script> 
+        <div class="text-center mb-6">
+          <h1
+            class="text-xl sm:text-3xl lg:text-5xl text-slate-800 font-semibold"
+          >
+            Лучшие предложения для отдыха
+          </h1>
+          <div class="menuContainer mt-6 py-12 bg-cover bg-center">
+            <div
+              id="menu"
+              class="p-4 grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-8"
+            ></div>
+            <div class="flex flex-col items-start m-4 pb-5 w-1/3 rounded-md">
+              <div class="mb-6">
+                <label class="label">Рейтинг отеля</label><br />
+                <select class="select" id="rating">
+                  <option value="0">Любой</option>
+                  <option value="9">выше 9</option>
+                  <option value="8">выше 8</option>
+                  <option value="7">выше 7</option>
+                </select>
+                <br />
+              </div>
+              <div>
+                <label class="label">Минимальная стоимость тура</label><br />
+                <input type="number" class="select flex mb-3" id="minPrice" />
+                <label class="label">Максимальная стоимость тура</label><br />
+                <input type="number" class="select flex" id="maxPrice" /><br />
+                <button class="btn flex px-10" id="filterByPriceBtn">
+                  Найти
+                </button>
+              </div>
+            </div>
+          </div>
+          <div id="processing" class="mt-6"></div>
+          <div class="flex justify-end gap-4">
+            <button class="btn">Все туры</button>
+            <button class="btn">Избранное</button>
+          </div>
+        </div>
+        <div
+          id="container"
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+        ></div>
+        <!-- модальное окно карточки-->
+        <div
+          id="modalCardMenu"
+          class="bg-slate-400 bg-opacity-50 w-screen overflow-auto fixed inset-0 hidden"
+        >
+          <div class="w-1/2 my-5 mx-auto">
+            <div class="flex flex-col">
+              <div class="flex justify-end">
+                <button id="buttonCloseModal" class="text-2xl text-slate-700">
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
+              </div>
+              <div id="modalCard"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/src/app.js" type="“module”"></script>
   </body>
-</html> 
+</html>

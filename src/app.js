@@ -43,7 +43,7 @@ async function loadTours() {
 function renderTours(currentTours) {
   const container = document.getElementById("container");
   container.innerHTML = "";
-  if (tours.length === 0) {
+  if (currentTours.length === 0) {
     container.innerHTML += "к сожалению ничего не найдено";
     return;
   }
@@ -55,8 +55,26 @@ function renderTours(currentTours) {
             <div class="p-6">
                 <div class="flex justify-end">
                     <button id="favoritToursBtn${tour.id}">
-                        <svg
+                       <svg
                             class="hover:fill-red-600 fill-gray-400"
+                            baseProfile="tiny"
+                            height="35px"
+                            id="Layer_1"
+                            version="1.2"
+                            viewBox="0 0 24 24"
+                            width="35px"
+                            xml:space="preserve"
+                            xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <g>
+                            <path
+                            d="M12,10.375C12,7.959,10.041,6,7.625,6S3.25,7.959,3.25,10.375c0,1.127,0.159,2.784,1.75,4.375S12,20,12,20   s5.409-3.659,7-5.25s1.75-3.248,1.75-4.375C20.75,7.959,18.791,6,16.375,6S12,7.959,12,10.375"/>
+                            </g>
+                        </svg>
+                    </button>
+                    <button id="favoritToursBtnRed${tour.id}" class="hidden">
+                        <svg
+                            class="fill-red-600"
                             baseProfile="tiny"
                             height="35px"
                             id="Layer_1"
@@ -172,20 +190,32 @@ function renderTours(currentTours) {
             .getElementById(`orderButton${tour.id}`)
             .addEventListener("click", () => {
             openModal(tour);
-          });
+        });
 
         if (favorites.includes(tour.id)) {
-            document.getElementById(`favoritToursBtn${tour.id}`).addEventListener("click", () => {
-            deleteFavorites(tours);
+            document.getElementById(`favoritToursBtnRed${tour.id}`).addEventListener("click", () => {
+            btnGrey(tour)
+            deleteFavorites(tour);
             saveToLocalStorage()
             });
         } else {
             document.getElementById(`favoritToursBtn${tour.id}`).addEventListener("click", () => {
-            favorites.push(tour.id);
+            favorites.push(tour.id); 
+            btnRed(tour)                       
             saveToLocalStorage()
             });
         }
     });
+}
+
+function btnRed(tour) {
+    document.getElementById(`favoritToursBtnRed${tour.id}`).style.display = "flex"
+    document.getElementById(`favoritToursBtn${tour.id}`).style.display = "none"
+}
+
+function btnGrey(tour) {
+    document.getElementById(`favoritToursBtnRed${tour.id}`).style.display = "none"
+    document.getElementById(`favoritToursBtn${tour.id}`).style.display = "flex"
 }
 
 document.getElementById("buttonCloseModal").addEventListener("click", () => {
@@ -366,17 +396,21 @@ document.getElementById(`favoritTour`).addEventListener("click", () => {
     const favoritTours = tours.filter(t => {
         return favorites.includes(t.id)
     })
-    renderTours(favoritTours)       
+    renderTours(favoritTours) 
+         
     });
 
 document.getElementById(`allToursBtn`).addEventListener("click", () => {
     renderTours(tours);
 });
 
-function deleteFavorites(tours) {
-    const index = favorites.indexOf(indexTour)
+function deleteFavorites(tour) {
+    const index = favorites.indexOf(tour.id)
     favorites.splice(index,1)
-    renderTours(favorites)  
+    const favoritTours = tours.filter(t => {
+        return favorites.includes(t.id)
+    })    
+    renderTours(favoritTours)  
     saveToLocalStorage()
 }
 

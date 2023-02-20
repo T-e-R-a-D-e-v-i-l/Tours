@@ -183,6 +183,12 @@ function renderTours(currentTours) {
                 </div>
             </div>
         </div>`;
+
+		if (favorites.includes(tour.id)) {
+			btnRed(tour)
+		}  else {
+			btnGrey(tour)
+		}
   });
 
   currentTours.forEach((tour) => {
@@ -192,19 +198,23 @@ function renderTours(currentTours) {
             openModal(tour);
         });
 
-        if (favorites.includes(tour.id)) {
+        // if (favorites.includes(tour.id)) {
+
             document.getElementById(`favoritToursBtnRed${tour.id}`).addEventListener("click", () => {
-            btnGrey(tour)
-            deleteFavorites(tour);
-            saveToLocalStorage()
+				btnGrey(tour)
+				deleteFavorites(tour)
+				renderTours(currentTours)   
+				btnGrey(tour)
+				saveToLocalStorage()
             });
-        } else {
+        // } else {
             document.getElementById(`favoritToursBtn${tour.id}`).addEventListener("click", () => {
-            favorites.push(tour.id); 
-            btnRed(tour)                       
-            saveToLocalStorage()
+				favorites.push(tour.id); 
+				btnRed(tour)    
+				renderTours(currentTours)                   
+				saveToLocalStorage()
             });
-        }
+        // }
     });
 }
 
@@ -404,14 +414,9 @@ document.getElementById(`allToursBtn`).addEventListener("click", () => {
     renderTours(tours);
 });
 
-function deleteFavorites(tour) {
+function deleteFavorites(tour, ts) {
     const index = favorites.indexOf(tour.id)
     favorites.splice(index,1)
-    const favoritTours = tours.filter(t => {
-        return favorites.includes(t.id)
-    })    
-    renderTours(favoritTours)  
-    saveToLocalStorage()
 }
 
 

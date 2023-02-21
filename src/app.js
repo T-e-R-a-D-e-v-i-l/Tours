@@ -200,6 +200,7 @@ function renderTours(currentTours) {
 
         
         document.getElementById(`favoritToursBtnRed${tour.id}`).addEventListener("click", () => {
+        swal ( "Тур удален из избранного" ) ;
         btnGrey(tour)
         deleteFavorites(tour);
         saveToLocalStorage()
@@ -207,6 +208,7 @@ function renderTours(currentTours) {
         
         document.getElementById(`favoritToursBtn${tour.id}`).addEventListener("click", () => {
         favorites.push(tour.id);
+        swal ( "Тур добавлен в избранное" ) ;
         btnRed(tour)                      
         saveToLocalStorage()
         });

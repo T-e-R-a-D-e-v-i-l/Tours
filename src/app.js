@@ -408,7 +408,7 @@ document.getElementById(`allToursBtn`).addEventListener("click", () => {
     renderTours(tours);
 });
 
-function deleteFavorites(tour) {
+function deleteFavorites(tour, ts) {
     const index = favorites.indexOf(tour.id)
     favorites.splice(index,1)
 }

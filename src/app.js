@@ -44,7 +44,7 @@ function renderTours(currentTours) {
   const container = document.getElementById("container");
   container.innerHTML = "";
   if (currentTours.length === 0) {
-    container.innerHTML += "к сожалению ничего не найдено";
+    container.innerHTML = "к сожалению ничего не найдено";
     return;
   }
 
@@ -410,7 +410,7 @@ document.getElementById(`allToursBtn`).addEventListener("click", () => {
     renderTours(tours);
 });
 
-function deleteFavorites(tour, ts) {
+function deleteFavorites(tour) {
     const index = favorites.indexOf(tour.id)
     favorites.splice(index,1)
 }

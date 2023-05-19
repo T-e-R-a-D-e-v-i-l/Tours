@@ -40,23 +40,41 @@ async function loadTours() {
 	return data;
 }
 
-function renderTours(tours) {
+function renderTours(currentTours) {
 	const container = document.getElementById("container");
 	container.innerHTML = "";
-	if (tours.length === 0) {
-		container.innerHTML += "к сожалению ничего не найдено";
+	if (currentTours.length === 0) {
+		container.innerHTML = "к сожалению ничего не найдено";
 		return;
 	}
 
-	tours.forEach((tour) => {
+	currentTours.forEach((tour) => {
 		container.innerHTML += `           
         <div class="bg-white shadow-xl rounded-2xl overflow-hidden">
             <img class="h-1/3 w-full" src=${tour.image}></img>
             <div class="p-6">
                 <div class="flex justify-end">
-                    <button>
-                        <svg
+                    <button id="favoritToursBtn${tour.id}">
+                       <svg
                             class="hover:fill-red-600 fill-gray-400"
+                            baseProfile="tiny"
+                            height="35px"
+                            id="Layer_1"
+                            version="1.2"
+                            viewBox="0 0 24 24"
+                            width="35px"
+                            xml:space="preserve"
+                            xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <g>
+                            <path
+                            d="M12,10.375C12,7.959,10.041,6,7.625,6S3.25,7.959,3.25,10.375c0,1.127,0.159,2.784,1.75,4.375S12,20,12,20   s5.409-3.659,7-5.25s1.75-3.248,1.75-4.375C20.75,7.959,18.791,6,16.375,6S12,7.959,12,10.375"/>
+                            </g>
+                        </svg>
+                    </button>
+                    <button id="favoritToursBtnRed${tour.id}" class="hidden">
+                        <svg
+                            class="fill-red-600"
                             baseProfile="tiny"
                             height="35px"
                             id="Layer_1"
@@ -163,29 +181,63 @@ function renderTours(tours) {
                     <button class="btn">Подробнее</button>
                     <button class="btn" id="orderButton${tour.id
 			}">Забронировать</button>
+                    <button class="btn" id="orderButton${tour.id}">Забронировать</button>
                 </div>
             </div>
         </div>`;
+
+		if (favorites.includes(tour.id)) {
+			btnRed(tour)
+		} else {
+			btnGrey(tour)
+		}
 	});
 
-	tours.forEach((tour) => {
+	currentTours.forEach((tour) => {
 		document
 			.getElementById(`orderButton${tour.id}`)
 			.addEventListener("click", () => {
 				openModal(tour);
 			});
+
+
+		document.getElementById(`favoritToursBtnRed${tour.id}`).addEventListener("click", () => {
+			swal("Тур удален из избранного");
+			btnGrey(tour)
+			deleteFavorites(tour);
+			saveToLocalStorage()
+		});
+
+		document.getElementById(`favoritToursBtn${tour.id}`).addEventListener("click", () => {
+			favorites.push(tour.id);
+			swal("Тур добавлен в избранное");
+			btnRed(tour)
+			saveToLocalStorage()
+		});
 	});
+}
+
+function btnRed(tour) {
+	document.getElementById(`favoritToursBtnRed${tour.id}`).style.display = "flex"
+	document.getElementById(`favoritToursBtn${tour.id}`).style.display = "none"
+}
+
+function btnGrey(tour) {
+	document.getElementById(`favoritToursBtnRed${tour.id}`).style.display = "none"
+	document.getElementById(`favoritToursBtn${tour.id}`).style.display = "flex"
 }
 
 document.getElementById("buttonCloseModal").addEventListener("click", () => {
 	closeModal();
 });
 
+//блок с заказом тура
+
 function closeModal() {
 	document.getElementById("modalCardMenu").style.display = "none";
 }
 
-let indexTour;
+let indexTour; // переменная для хранения id
 
 async function openModal(tour) {
 	document.getElementById("modalCardMenu").style.display = "flex";
@@ -327,12 +379,46 @@ async function orderTour() {
 
 		if (date) {
 			swal("Спасибо!", "Ваша заявка принята!", "success");
-			closeModal(); //не работает закрытие модального окна
+			closeModal();
 		}
 	} catch (error) {
 		swal("Произошла ошибка!", "Попробуйте снова", "error");
 	}
 }
+
+//блок с добавлением в избранное
+
+let favorites = [] // массив id избранных туров
+
+function saveToLocalStorage() {
+	const toursJson = JSON.stringify(favorites)
+	localStorage.setItem('favorites', toursJson)
+}
+
+//получение данных из localStorage
+const toursJson = localStorage.getItem('favorites')
+if (toursJson) {
+	favorites = JSON.parse(toursJson)
+}
+
+document.getElementById(`favoritTour`).addEventListener("click", () => {
+	const favoritTours = tours.filter(t => {
+		return favorites.includes(t.id)
+	})
+	renderTours(favoritTours)
+});
+
+document.getElementById(`allToursBtn`).addEventListener("click", () => {
+	renderTours(tours);
+});
+
+function deleteFavorites(tour) {
+	const index = favorites.indexOf(tour.id)
+	favorites.splice(index, 1)
+}
+
+
+//блок с фильтрацией туров
 
 function filterByCountry(tours, country) {
 	console.log(country);
@@ -353,7 +439,6 @@ function filterByRating(tours, rating) {
 	renderTours(filteredToursRating);
 }
 
-// для варианта с инпутом с максимальной ценой
 function filterByPrice(tours, maxPrice, minPrice) {
 	const filteredToursPrice = tours.filter((tour) => {
 		if (maxPrice > 0) {
@@ -366,7 +451,7 @@ function filterByPrice(tours, maxPrice, minPrice) {
 }
 
 async function init() {
-	const tours = await loadTours();
+	tours = await loadTours();
 	processing.innerHTML = "";
 	renderTours(tours);
 	renderMenu(tours);
@@ -376,15 +461,18 @@ async function init() {
 		filterByRating(tours, currentRating);
 	});
 
-	// для варианта с инпутом
+
 	document.getElementById(`filterByPriceBtn`).addEventListener("click", () => {
 		const maxPrice = document.getElementById("maxPrice").value;
 		const minPrice = document.getElementById("minPrice").value;
 		filterByPrice(tours, maxPrice, minPrice);
 	});
+
 }
 
 let tours = [];
+
+// индикатор загрузки
 
 const processing = document.getElementById("processing");
 processing.innerHTML = "";

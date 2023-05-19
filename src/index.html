@@ -44,14 +44,14 @@
 				</div>
 				<div id="processing" class="mt-6"></div>
 				<div class="flex justify-end gap-4">
-					<button class="btn">Все туры</button>
-					<button class="btn">Избранное</button>
+					<button id="allToursBtn" class="btn">Все туры</button>
+					<button id="favoritTour" class="btn">Избранное</button>
 				</div>
 			</div>
 			<div id="container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"></div>
 			<!-- модальное окно карточки-->
 			<div id="modalCardMenu" class="bg-slate-400 bg-opacity-50 w-screen overflow-auto fixed inset-0 hidden">
-				<div class="w-1/2 my-5 mx-auto">
+				<div class="w-4/5 xl:w-1/2 lg:w-1/2 md:w-3/5 sm:w-3/5 my-5 mx-auto">
 					<div class="flex flex-col">
 						<div class="flex justify-end">
 							<button id="buttonCloseModal" class="text-2xl text-slate-700">
@@ -62,6 +62,7 @@
 					</div>
 				</div>
 			</div>
+			<div id="favorites"></div>
 		</div>
 	</div>
 	<script type="module" type="module" src="/src/app.js" type="“module”" type=“module”></script>

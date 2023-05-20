@@ -200,7 +200,6 @@ function renderTours(currentTours) {
                 openModal(tour);
             });
 
-
         document.getElementById(`favoritToursBtnRed${tour.id}`).addEventListener("click", () => {
             swal("Тур удален из избранного");
             btnGrey(tour)
@@ -416,7 +415,6 @@ function deleteFavorites(tour) {
     const index = favorites.indexOf(tour.id)
     favorites.splice(index, 1)
 }
-
 
 //блок с фильтрацией туров
 
